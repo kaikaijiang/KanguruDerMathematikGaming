@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Fix layout consistency across browsers */
+  font-size: 16px;
+
+  /* Palette - Retro Arcade */
+  --color-bg: #050510;
+  /* Deep Space Blue/Black */
+  --color-text: #E0E0E0;
+  /* Light Gray */
+  --color-primary: #00E5FF;
+  /* Cyan */
+  --color-secondary: #FF2A6D;
+  /* Hot Pink */
+  --color-success: #05FFA1;
+  /* Neon Green */
+  --color-warning: #FFCE00;
+  /* Yellow */
+  --color-surface: #1A1A2E;
+  /* Dark Blue-Purple */
+
+  /* Borders & Shadows */
+  --border-width: 4px;
+  --game-border: var(--border-width) solid var(--color-text);
+
+  /* Child-Friendly Fonts */
+  --font-pixel: "Lexend", "Courier New", Courier, monospace;
+
+  /* Option Card Colors (A-E) */
+  --option-a: #EF4444;
+  /* Red */
+  --option-b: #3B82F6;
+  /* Blue */
+  --option-c: #22C55E;
+  /* Green */
+  --option-d: #F97316;
+  /* Orange */
+  --option-e: #A855F7;
+  /* Purple */
+}
+
+/* Game Container - Centered with max-width */
+.game-container {
+  max-width: 1500px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+
+/* Reset */
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+/* Typography Utility */
+h1,
+h2,
+h3 {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 0px #000;
+}
+
+/* Custom Utilities for Pixel Art Feel */
+.pixelated {
+  image-rendering: pixelated;
+}
+
+html {
+  background-color: var(--color-bg);
+  height: 100%;
+}
+
+body {
+  background-color: transparent;
+  /* Allow pseudo-element to show through */
+  color: var(--color-text);
+  font-family: var(--font-pixel);
+  overflow-x: hidden;
+  overscroll-behavior: none;
+  min-height: 100%;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+  z-index: -1;
+  background-image: url('./assets/images/background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(5px);
+  opacity: 0.8;
+  /* Slight transparency to blend with dark bg if needed, or remove if not */
+}
+
+/* Celebration Animation for Correct Answers */
+@keyframes celebration-fall {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(100vh) rotate(720deg) scale(0.5);
+    opacity: 0;
+  }
+}
+
+.animate-celebration-fall {
+  animation: celebration-fall 2s ease-out forwards;
+}
+
+/* Fade in animation */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.4s ease-out forwards;
+}
