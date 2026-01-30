@@ -8,7 +8,7 @@
    * Keep this ID safe, you will need it later.
 
 ## 2. Configure Sheets (Tabs)
-You need to create **4 Tabs** in total. Rename them exactly as follows:
+You need to create **3 Tabs** in total. Rename them exactly as follows:
 
 ### Sheet 1: `Questions_DE` (German Questions)
 *   **Row 1 (Header)**: `id`, `category`, `title`, `options`, `correct_answer`, `youtube_id`, `video_start`, `video_end`, `avatar_seed`
@@ -20,8 +20,7 @@ You need to create **4 Tabs** in total. Rename them exactly as follows:
 ### Sheet 3: `Players`
 *   **Row 1 (Header)**: `player_id`, `total_played`, `high_score`, `collected_avatars`, `last_played_at`
 
-### Sheet 4: `History`
-*   **Row 1 (Header)**: `timestamp`, `player_id`, `score`, `lang`
+
 
 ## 3. Add Sample Data (Questions)
 

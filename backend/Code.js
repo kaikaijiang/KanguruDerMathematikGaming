@@ -3,7 +3,7 @@
  * 
  * Instructions:
  * 1. Create a new Google Sheet.
- * 2. Create 3 Sheets (tabs): 'Questions_DE', 'Questions_CN', 'Players', 'History'.
+ * 2. Create 3 Sheets (tabs): 'Questions_DE', 'Questions_CN', 'Players'.
  * 3. Go to Extensions > Apps Script.
  * 4. Paste this code into Code.gs.
  * 5. Deploy as Web App (Access: Anyone).
@@ -30,7 +30,7 @@ function handleRequest(e) {
 
         // --- SECURITY CHECK ---
         // Change 'YOUR_SECRET_HERE' to your actual secret password!
-        const API_SECRET = 'Your_API_Secret';
+        const API_SECRET = 'YOUR_SECRET_HERE';
 
         // Check if secret matches (allow bypass for initial testing if needed, but not recommended)
         if (params.secret !== API_SECRET) {
@@ -314,7 +314,7 @@ function syncScore(data) {
     // pointsEarned: number (points to ADD to balance)
 
     const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName('Players');
-    const historySheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName('History');
+    // const historySheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName('History'); // REMOVED
 
     const allData = sheet.getDataRange().getValues();
     const headerRow = allData[0];
@@ -403,8 +403,8 @@ function syncScore(data) {
         sheet.appendRow(newRow);
     }
 
-    // Log History
-    historySheet.appendRow([timestamp, playerId, score, points, data.duration || 0, data.lang || '', data.activeExamId || '']);
+    // Log History - REMOVED per user request
+    // historySheet.appendRow([timestamp, playerId, score, points, data.duration || 0, data.lang || '', data.activeExamId || '']);
 
     return { success: true };
 }
