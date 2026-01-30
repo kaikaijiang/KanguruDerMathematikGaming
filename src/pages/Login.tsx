@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { Language } from '../stores/useGameStore';
 import { useUserStore } from '../stores/useGameStore';
-import { fetchExamConfig } from '../services/api';
+import { fetchExamConfig, fetchPlayer } from '../services/api';
 import type { ExamConfig } from '../services/api';
 import { Loader2 } from 'lucide-react';
 
-const GAS_URL = import.meta.env.VITE_GOOGLE_APP_SCRIPT_URL;
+
 
 const Login = () => {
     const navigate = useNavigate();
@@ -73,7 +73,7 @@ const Login = () => {
         setCheckError('');
 
         try {
-            if (!GAS_URL) {
+            if (!import.meta.env.VITE_GOOGLE_APP_SCRIPT_URL) {
                 // Mock behavior
                 await new Promise(r => setTimeout(r, 500));
                 setPlayerId(localId);
@@ -82,11 +82,15 @@ const Login = () => {
                 return;
             }
 
-            const res = await fetch(`${GAS_URL}?action=getPlayer&playerId=${localId}`);
-            if (!res.ok) throw new Error('Network error');
-            const data = await res.json();
+            const data = await fetchPlayer(localId);
 
-            if (data.error) throw new Error(data.error);
+            // Detect New Player (Backend returns totalPlayed: 0 for non-existent users)
+            if (data.totalPlayed === 0) {
+                setCheckError('Could not load profile. New Player!');
+            } else {
+                setCheckError('');
+            }
+
 
             console.log("LOGIN SUCCESS: ", data); // DEBUG
 

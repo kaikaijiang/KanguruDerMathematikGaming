@@ -152,6 +152,34 @@ interface FetchOptions {
     examId?: string; // For Standard Mode: "3_4_2025"
     classId?: string; // For Retry Mode: "3_4"
 }
+// ... existing interfaces ...
+
+export const fetchPlayer = async (playerId: string) => {
+    if (!GAS_URL) {
+        // Mock
+        return {
+            playerId: playerId,
+            totalPlayed: 10,
+            highScore: 100,
+            currentBalance: 50,
+            collectedAvatars: ['101', 'q_1'],
+            wrongQuestions: [],
+            lastQuestionIndex: 5,
+            activeExamId: '3_4_2025'
+        };
+    }
+
+    try {
+        const res = await fetch(getAuthenticatedUrl('getPlayer', `playerId=${playerId}`));
+        if (!res.ok) throw new Error('Network error');
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+        return data;
+    } catch (err) {
+        throw err;
+    }
+};
+
 interface SyncData {
     playerId: string;
     score: number;

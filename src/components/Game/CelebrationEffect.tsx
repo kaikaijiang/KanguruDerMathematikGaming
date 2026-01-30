@@ -45,7 +45,7 @@ const CelebrationEffect = ({ onComplete }: CelebrationEffectProps) => {
 
         // Play celebration sound
         try {
-            const audio = new Audio('/sounds/celebration.mp3');
+            const audio = new Audio(import.meta.env.BASE_URL + 'sounds/celebration.mp3');
             audio.volume = 0.5;
             audio.play().catch(() => {
                 // Audio play failed (likely no sound file or autoplay blocked)
