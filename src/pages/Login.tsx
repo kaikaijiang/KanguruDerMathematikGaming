@@ -22,7 +22,7 @@ const Login = () => {
     const [selectedYear, setSelectedYear] = useState<string>('2025');
     const [isConfigLoading, setIsConfigLoading] = useState(true);
 
-    const { setPlayerId, setLanguage, syncFromBackend, wrongQuestions, lastQuestionIndex, activeExamId } = useUserStore();
+    const { setPlayerId, setLanguage, syncFromBackend, wrongQuestions, lastQuestionIndex, activeExamId, clearUserSession } = useUserStore();
     const { playerId } = useUserStore();
 
     // 1. Fetch Exam Config on Mount
@@ -105,6 +105,7 @@ const Login = () => {
         } catch (err) {
             console.error(err);
             setCheckError('Could not load profile. New Player!');
+            clearUserSession(); // Ensure no stale data from previous user
             setPlayerId(localId);
             setIsProfileLoaded(true);
         } finally {
@@ -122,12 +123,19 @@ const Login = () => {
         // Retry: needs classId (e.g. "3_4")
         const examId = `${selectedClass}_${selectedYear}`;
 
+        // FIX: If switching to a NEW exam (or first run), Start Index should be 0.
+        // If resuming the SAME exam, use the stored lastQuestionIndex.
+        const isSameExam = activeExamId === examId;
+        const effectiveStartIndex = (mode === 'sequential' && isSameExam) ? lastQuestionIndex : 0;
+
+        console.log(`[Login] Starting Game. Same Exam? ${isSameExam} (${activeExamId} vs ${examId}) -> StartIndex: ${effectiveStartIndex}`);
+
         // Navigate with Game Config
         navigate('/game', {
             state: {
                 mode: mode,
                 count: questionCount,
-                startIndex: mode === 'sequential' ? lastQuestionIndex : 0,
+                startIndex: effectiveStartIndex,
                 examId: examId,     // Passed for Standard Mode
                 classId: selectedClass // Passed for Retry Mode scope
             }
@@ -178,7 +186,7 @@ const Login = () => {
                             {isProfileLoaded && (
                                 <button
                                     onClick={() => {
-                                        setPlayerId('');
+                                        clearUserSession(); // Fully reset store
                                         setLocalId('');
                                         setIsProfileLoaded(false);
                                     }}

@@ -9,7 +9,8 @@ interface SolutionModalProps {
 
 const SolutionModal = ({ youtubeId, start, end, onClose }: SolutionModalProps) => {
     // Construct embed URL with start/end parameters
-    const embedUrl = `https://www.youtube.com/embed/${youtubeId}?start=${start}&end=${end}&autoplay=1&rel=0`;
+    // Use youtube-nocookie to reduce tracking/cookie warnings
+    const embedUrl = `https://www.youtube-nocookie.com/embed/${youtubeId}?start=${start}&end=${end}&autoplay=1&rel=0`;
 
     return (
         <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
@@ -27,7 +28,6 @@ const SolutionModal = ({ youtubeId, start, end, onClose }: SolutionModalProps) =
                         height="100%"
                         src={embedUrl}
                         title="Solution Video"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
                         className="border-2 border-gray-700"
                     ></iframe>

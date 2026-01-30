@@ -90,6 +90,9 @@ const GameBoard = () => {
 
             console.log("Loading Game with Config:", config);
 
+            // Clear previous questions to prevent flash of old content
+            setQuestions([]);
+
             try {
                 let qs;
                 if (config.mode === 'retry') {

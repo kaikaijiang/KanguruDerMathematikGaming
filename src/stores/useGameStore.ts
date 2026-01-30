@@ -56,6 +56,7 @@ interface UserState {
         currentBalance: number,
         activeExamId?: string
     }) => void;
+    clearUserSession: () => void;
 }
 
 interface GameState {
@@ -120,6 +121,17 @@ export const useUserStore = create<UserState>()(
                     activeExamId: data.activeExamId || null
                 })
             },
+            clearUserSession: () => set({
+                // Keep Language? Maybe. Keep PlayerID? No.
+                playerId: '',
+                collectedAvatars: [],
+                selectedAvatarId: null,
+                selectedAvatarUrl: null,
+                wrongQuestions: [],
+                lastQuestionIndex: 0,
+                currentBalance: 0,
+                activeExamId: null
+            }),
 
         }),
         {

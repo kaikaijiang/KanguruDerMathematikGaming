@@ -317,7 +317,7 @@ const mockFetch = async (_lang: Language) => {
 const extractYoutubeId = (urlOrId: string) => {
     if (!urlOrId) return '';
     // Handle standard URL, Short URL, and already extracted ID
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|live\/)([^#&?]*).*/;
     const match = urlOrId.match(regExp);
     return (match && match[2].length === 11) ? match[2] : urlOrId;
 };
