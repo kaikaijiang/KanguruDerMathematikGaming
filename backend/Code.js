@@ -666,7 +666,14 @@ function parseTime(input) {
     const str = input.toString().replace(/["']/g, '');
     if (str.includes(':')) {
         const parts = str.split(':');
-        if (parts.length === 2) {
+        if (parts.length === 3) {
+            // HH:MM:SS
+            const hrs = parseInt(parts[0], 10);
+            const min = parseInt(parts[1], 10);
+            const sec = parseInt(parts[2], 10);
+            return (hrs * 3600) + (min * 60) + sec;
+        } else if (parts.length === 2) {
+            // MM:SS
             const min = parseInt(parts[0], 10);
             const sec = parseInt(parts[1], 10);
             return (min * 60) + sec;
