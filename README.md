@@ -64,16 +64,6 @@ npm run dev
 npm run build
 ```
 
-### Environment Variables
-
-Create a `.env` file:
-
-```ini
-VITE_GOOGLE_APP_SCRIPT_URL=https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec
-VITE_PASS_THRESHOLD=5
-VITE_QUESTION_COUNT=10
-```
-
 ## Deployment
 
 This project is configured to deploy to GitHub Pages using GitHub Actions.
