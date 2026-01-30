@@ -1,6 +1,19 @@
 import type { Language } from '../stores/useGameStore';
 
 const GAS_URL = import.meta.env.VITE_GOOGLE_APP_SCRIPT_URL;
+const API_SECRET = import.meta.env.VITE_API_SECRET;
+
+// Helper to append secret to every request
+const getAuthenticatedUrl = (action: string, otherParams: string = '') => {
+    let url = `${GAS_URL}?action=${action}`;
+    if (API_SECRET) {
+        url += `&secret=${encodeURIComponent(API_SECRET)}`;
+    }
+    if (otherParams) {
+        url += `&${otherParams}`;
+    }
+    return url;
+};
 
 
 // MOCK DATA FALLBACK (In case API fails or is not set)
@@ -55,7 +68,7 @@ export const fetchExamConfig = async (): Promise<ExamConfig[]> => {
         ];
     }
     try {
-        const res = await fetch(`${GAS_URL}?action=getExamConfig`);
+        const res = await fetch(getAuthenticatedUrl('getExamConfig'));
         if (!res.ok) throw new Error('Network error');
         const data = await res.json();
 
@@ -84,24 +97,22 @@ export const fetchQuestions = async (lang: Language, options: FetchOptions = {})
 
     try {
         const count = options.count || import.meta.env.VITE_QUESTION_COUNT || 10;
-        let query = `${GAS_URL}?action=getQuestions&count=${count}&lang=${lang}`;
+        let params = `count=${count}&lang=${lang}`;
 
         if (options.startIndex !== undefined) {
-            query += `&startIndex=${options.startIndex}`;
+            params += `&startIndex=${options.startIndex}`;
         }
         if (options.ids && options.ids.length > 0) {
-            query += `&ids=${options.ids.join(',')}`;
-            // If we have IDs (Retry Mode), we also need the Class ID scope
+            params += `&ids=${options.ids.join(',')}`;
             if (options.classId) {
-                query += `&classId=${options.classId}`;
+                params += `&classId=${options.classId}`;
             }
         }
-        // Standard Mode
         if (options.examId) {
-            query += `&examId=${options.examId}`;
+            params += `&examId=${options.examId}`;
         }
 
-        const response = await fetch(query);
+        const response = await fetch(getAuthenticatedUrl('getQuestions', params));
         if (!response.ok) throw new Error('Network error');
 
         const data = await response.json();
@@ -163,7 +174,8 @@ export const syncScore = async (data: SyncData) => {
         const payload = JSON.stringify(data);
 
         console.log('[API] Sending syncScore request to:', GAS_URL);
-        const res = await fetch(`${GAS_URL}?action=syncScore`, {
+        console.log('[API] Sending syncScore request to:', GAS_URL);
+        const res = await fetch(getAuthenticatedUrl('syncScore'), {
             method: 'POST',
             headers: { "Content-Type": "text/plain" },
             body: payload
@@ -207,7 +219,7 @@ export const buySticker = async (playerId: string, rarity: string): Promise<Purc
 
     try {
         const payload = JSON.stringify({ playerId, rarity });
-        const res = await fetch(`${GAS_URL}?action=buySticker`, {
+        const res = await fetch(getAuthenticatedUrl('buySticker'), {
             method: 'POST',
             headers: { "Content-Type": "text/plain" },
             body: payload
@@ -240,7 +252,7 @@ export const fetchSticker = async (id: string): Promise<{ id: string; imageUrl: 
     }
 
     try {
-        const res = await fetch(`${GAS_URL}?action=getSticker&id=${id}`);
+        const res = await fetch(getAuthenticatedUrl('getSticker', `id=${id}`));
         if (!res.ok) throw new Error('Network error');
 
         const data = await res.json();
@@ -282,7 +294,7 @@ export const fetchGallery = async (playerId: string): Promise<{ gallery: GalleyI
     }
 
     try {
-        const res = await fetch(`${GAS_URL}?action=getGallery&playerId=${playerId}`);
+        const res = await fetch(getAuthenticatedUrl('getGallery', `playerId=${playerId}`));
         if (!res.ok) throw new Error('Network error');
         const data = await res.json();
         return data;

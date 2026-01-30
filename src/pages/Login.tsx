@@ -104,7 +104,7 @@ const Login = () => {
 
         } catch (err) {
             console.error(err);
-            setCheckError('Could not load profile. Working offline?');
+            setCheckError('Could not load profile. New Player!');
             setPlayerId(localId);
             setIsProfileLoaded(true);
         } finally {

@@ -28,6 +28,17 @@ function handleRequest(e) {
         const params = e.parameter;
         const action = params.action;
 
+        // --- SECURITY CHECK ---
+        // Change 'YOUR_SECRET_HERE' to your actual secret password!
+        const API_SECRET = 'Your_API_Secret';
+
+        // Check if secret matches (allow bypass for initial testing if needed, but not recommended)
+        if (params.secret !== API_SECRET) {
+            return ContentService.createTextOutput(JSON.stringify({ error: 'Unauthorized: Invalid Secret' }))
+                .setMimeType(ContentService.MimeType.JSON);
+        }
+        // ----------------------        const action = params.action;
+
         // CORS Headers
         const headers = {
             'Access-Control-Allow-Origin': '*',

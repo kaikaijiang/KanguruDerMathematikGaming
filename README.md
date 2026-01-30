@@ -81,6 +81,7 @@ This project is configured to deploy to GitHub Pages using GitHub Actions.
 1.  **Enable GitHub Actions**: Go to **Settings > Pages > Build and deployment > Source** and select **GitHub Actions**.
 2.  **Configure Secrets**: Go to **Settings > Secrets and variables > Actions > New repository secret**:
     *   `VITE_GOOGLE_APP_SCRIPT_URL`: Your Google Apps Script deployment URL.
+    *   `VITE_API_SECRET`: A shared secret password (must match `backend/Code.js`).
 3.  **Configure Variables**: Go to **Variables** tab (next to Secrets):
     *   `VITE_QUESTION_COUNT`: (Optional) e.g., `24`.
 4.  **Deploy**: Push to the `main` branch to trigger the deployment workflow.

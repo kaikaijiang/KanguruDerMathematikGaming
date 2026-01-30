@@ -40,6 +40,7 @@ jobs:
           # Inject secrets into the build process
           VITE_GOOGLE_APP_SCRIPT_URL: ${{ secrets.VITE_GOOGLE_APP_SCRIPT_URL }}
           VITE_QUESTION_COUNT: ${{ vars.VITE_QUESTION_COUNT || '24' }}
+          VITE_API_SECRET: ${{ secrets.VITE_API_SECRET }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
