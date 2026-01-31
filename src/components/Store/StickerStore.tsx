@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '../../stores/useGameStore';
 import { buySticker } from '../../services/api';
 import TreasureChest from './TreasureChest';
@@ -13,6 +14,7 @@ const RARITIES = [
 ];
 
 const StickerStore = ({ onClose }: { onClose: () => void }) => {
+    const navigate = useNavigate();
     const { currentBalance, setBalance, unlockAvatar, playerId } = useUserStore();
     const [buyingId, setBuyingId] = useState<string | null>(null);
     const [chestData, setChestData] = useState<{ isOpen: boolean, result?: 'new' | 'duplicate', image?: string, rarity?: string } | null>(null);
@@ -84,6 +86,9 @@ const StickerStore = ({ onClose }: { onClose: () => void }) => {
                         <span className="text-yellow-400 text-2xl">★</span>
                         <span className="text-2xl">{currentBalance}</span>
                     </div>
+                    <button onClick={() => navigate('/gallery')} className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded text-xl border-2 border-blue-400 mr-2">
+                        STICKERS
+                    </button>
                     <button onClick={onClose} className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded text-xl">
                         EXIT
                     </button>

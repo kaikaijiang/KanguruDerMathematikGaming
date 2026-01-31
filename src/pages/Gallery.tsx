@@ -84,8 +84,16 @@ const Gallery = () => {
                     <h1 className="text-4xl text-yellow-500 drop-shadow-md">STICKER COLLECTION</h1>
                     <p className="text-gray-400 text-xl uppercase tracking-widest">{playerId}</p>
                 </div>
-                <div className="ml-auto bg-gray-800 px-6 py-2 rounded-full border-2 border-yellow-600">
-                    <span className="text-2xl text-yellow-400 font-bold">{items.length} FOUND</span>
+                <div className="ml-auto flex items-center gap-4">
+                    <button
+                        onClick={() => navigate('/store')}
+                        className="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded border-2 border-green-400 flex items-center gap-2"
+                    >
+                        <span>🛍️</span> STORE
+                    </button>
+                    <div className="bg-gray-800 px-6 py-2 rounded-full border-2 border-yellow-600">
+                        <span className="text-2xl text-yellow-400 font-bold">{items.length} FOUND</span>
+                    </div>
                 </div>
             </header>
 

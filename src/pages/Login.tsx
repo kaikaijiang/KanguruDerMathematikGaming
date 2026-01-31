@@ -340,7 +340,7 @@ const Login = () => {
                 <div className="pt-3 md:pt-4 lg:pt-6">
                     <button
                         onClick={() => navigate('/gallery')}
-                        className="text-gray-400 hover:text-white underline decoration-2 underline-offset-4 text-xs md:text-sm lg:text-base"
+                        className="text-white hover:text-yellow-400 underline decoration-2 underline-offset-8 text-lg md:text-xl lg:text-2xl font-bold tracking-wide"
                     >
                         View Your Sticker Book
                     </button>

@@ -195,12 +195,17 @@ function getQuestions(params) {
             return { error: 'NO_QUESTIONS_FOUND' };
         }
 
-        // Sequential slice
-        if (startIndex < questions.length) {
-            questions = questions.slice(startIndex, startIndex + count);
-        } else {
-            questions = [];
+        // Infinite Loop Logic (Modulo)
+        // If startIndex exceeds total, we wrap around. 
+        // We also ensure we always return 'count' items by wrapping within the batch if needed.
+        const total = questions.length;
+        const effectiveStart = startIndex % total;
+
+        let loopedQuestions = [];
+        for (let i = 0; i < count; i++) {
+            loopedQuestions.push(questions[(effectiveStart + i) % total]);
         }
+        questions = loopedQuestions;
     }
 
     return questions.slice(0, count);
