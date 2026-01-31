@@ -283,13 +283,15 @@ const Login = () => {
                                 <h3 className="text-base md:text-lg lg:text-xl text-yellow-400">STANDARD RUN</h3>
                                 <button
                                     onClick={() => handleStart('de', 'sequential')}
-                                    className="w-full bg-red-600 hover:bg-red-500 text-white text-sm md:text-base lg:text-lg py-2 md:py-3 lg:py-4 border-3 md:border-4 border-white shadow-[3px_3px_0_#000000] active:translate-y-1 active:shadow-none rounded-lg"
+                                    disabled={isConfigLoading}
+                                    className={`w-full ${isConfigLoading ? 'bg-gray-600 cursor-not-allowed opacity-50' : 'bg-red-600 hover:bg-red-500'} text-white text-sm md:text-base lg:text-lg py-2 md:py-3 lg:py-4 border-3 md:border-4 border-white shadow-[3px_3px_0_#000000] active:translate-y-1 active:shadow-none rounded-lg`}
                                 >
                                     DEUTSCH START
                                 </button>
                                 <button
                                     onClick={() => handleStart('cn', 'sequential')}
-                                    className="w-full bg-blue-600 hover:bg-blue-500 text-white text-sm md:text-base lg:text-lg py-2 md:py-3 lg:py-4 border-3 md:border-4 border-white shadow-[3px_3px_0_#000000] active:translate-y-1 active:shadow-none rounded-lg"
+                                    disabled={isConfigLoading}
+                                    className={`w-full ${isConfigLoading ? 'bg-gray-600 cursor-not-allowed opacity-50' : 'bg-blue-600 hover:bg-blue-500'} text-white text-sm md:text-base lg:text-lg py-2 md:py-3 lg:py-4 border-3 md:border-4 border-white shadow-[3px_3px_0_#000000] active:translate-y-1 active:shadow-none rounded-lg`}
                                 >
                                     中文 START
                                 </button>
@@ -305,15 +307,15 @@ const Login = () => {
                                 <p className="text-xs text-pink-300 font-mono -mt-1">Scope: Class {selectedClass} (All Years)</p>
                                 <button
                                     onClick={() => handleStart('de', 'retry')}
-                                    disabled={wrongQuestions.length === 0}
-                                    className="w-full bg-gray-700 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm md:text-base lg:text-lg py-2 md:py-3 lg:py-4 border-3 md:border-4 border-gray-500 shadow-[3px_3px_0_#000000] active:translate-y-1 active:shadow-none rounded-lg"
+                                    disabled={wrongQuestions.length === 0 || isConfigLoading}
+                                    className={`w-full ${wrongQuestions.length === 0 || isConfigLoading ? 'bg-gray-800 cursor-not-allowed opacity-50' : 'bg-gray-700 hover:bg-gray-600'} text-white text-sm md:text-base lg:text-lg py-2 md:py-3 lg:py-4 border-3 md:border-4 border-gray-500 shadow-[3px_3px_0_#000000] active:translate-y-1 active:shadow-none rounded-lg`}
                                 >
                                     DEUTSCH RETRY ({wrongQuestions.length})
                                 </button>
                                 <button
                                     onClick={() => handleStart('cn', 'retry')}
-                                    disabled={wrongQuestions.length === 0}
-                                    className="w-full bg-gray-700 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm md:text-base lg:text-lg py-2 md:py-3 lg:py-4 border-3 md:border-4 border-gray-500 shadow-[3px_3px_0_#000000] active:translate-y-1 active:shadow-none rounded-lg"
+                                    disabled={wrongQuestions.length === 0 || isConfigLoading}
+                                    className={`w-full ${wrongQuestions.length === 0 || isConfigLoading ? 'bg-gray-800 cursor-not-allowed opacity-50' : 'bg-gray-700 hover:bg-gray-600'} text-white text-sm md:text-base lg:text-lg py-2 md:py-3 lg:py-4 border-3 md:border-4 border-gray-500 shadow-[3px_3px_0_#000000] active:translate-y-1 active:shadow-none rounded-lg`}
                                 >
                                     中文 RETRY ({wrongQuestions.length})
                                 </button>
