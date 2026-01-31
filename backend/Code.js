@@ -474,21 +474,21 @@ function buySticker(e) {
     // Gacha Logic
     const rand = Math.random() * 100;
     if (rarity === 'legendär') {
-        if (rand < 20) resultRarity = 'legendär';
-        else if (rand < 40) resultRarity = 'episch';
-        else if (rand < 70) resultRarity = 'selten';
-        else resultRarity = 'ungewöhnlich';
-    } else if (rarity === 'mythisch') {
-        if (rand < 15) resultRarity = 'mythisch';
-        else if (rand < 30) resultRarity = 'legendär';
-        else if (rand < 60) resultRarity = 'episch';
+        if (rand < 50) resultRarity = 'legendär';
+        else if (rand < 70) resultRarity = 'episch';
         else if (rand < 90) resultRarity = 'selten';
         else resultRarity = 'ungewöhnlich';
+    } else if (rarity === 'mythisch') {
+        if (rand < 40) resultRarity = 'mythisch';
+        else if (rand < 60) resultRarity = 'legendär';
+        else if (rand < 75) resultRarity = 'episch';
+        else if (rand < 85) resultRarity = 'selten';
+        else resultRarity = 'ungewöhnlich';
     } else if (rarity === 'göttlich') {
-        if (rand < 10) resultRarity = 'göttlich';
-        else if (rand < 25) resultRarity = 'mythisch';
-        else if (rand < 45) resultRarity = 'legendär';
-        else if (rand < 70) resultRarity = 'episch';
+        if (rand < 40) resultRarity = 'göttlich';
+        else if (rand < 60) resultRarity = 'mythisch';
+        else if (rand < 75) resultRarity = 'legendär';
+        else if (rand < 85) resultRarity = 'episch';
         else resultRarity = 'selten';
     }
 
