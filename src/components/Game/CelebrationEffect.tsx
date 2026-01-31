@@ -22,44 +22,96 @@ const COLORS = ['#EF4444', '#3B82F6', '#22C55E', '#F97316', '#A855F7', '#FFCE00'
 const CelebrationEffect = ({ onComplete }: CelebrationEffectProps) => {
     const [particles, setParticles] = useState<Particle[]>([]);
     const [isVisible, setIsVisible] = useState(true);
+    const [variant, setVariant] = useState<'classic' | 'fireworks' | 'emojis'>('classic');
 
     useEffect(() => {
-        // Generate random particles
-        const newParticles: Particle[] = [];
-        const types: ('confetti' | 'star' | 'sparkle')[] = ['confetti', 'star', 'sparkle'];
+        // 1. Randomize Variant
+        const variants: ('classic' | 'fireworks' | 'emojis')[] = ['classic', 'fireworks', 'emojis'];
+        const selectedVariant = variants[Math.floor(Math.random() * variants.length)];
+        setVariant(selectedVariant);
 
-        for (let i = 0; i < 50; i++) {
-            newParticles.push({
-                id: i,
-                x: Math.random() * 100,
-                y: -10 - Math.random() * 20,
-                color: COLORS[Math.floor(Math.random() * COLORS.length)],
-                size: 8 + Math.random() * 16,
-                rotation: Math.random() * 360,
-                velocityX: (Math.random() - 0.5) * 4,
-                velocityY: 2 + Math.random() * 3,
-                type: types[Math.floor(Math.random() * types.length)],
-            });
+        // 2. Generate Particles based on Variant
+        const newParticles: Particle[] = [];
+
+        if (selectedVariant === 'classic') {
+            // ... Existing Logic ...
+            const types: ('confetti' | 'star' | 'sparkle')[] = ['confetti', 'star', 'sparkle'];
+            for (let i = 0; i < 50; i++) {
+                newParticles.push({
+                    id: i,
+                    x: Math.random() * 100,
+                    y: -10 - Math.random() * 20,
+                    color: COLORS[Math.floor(Math.random() * COLORS.length)],
+                    size: 8 + Math.random() * 16,
+                    rotation: Math.random() * 360,
+                    velocityX: (Math.random() - 0.5) * 4,
+                    velocityY: 2 + Math.random() * 3,
+                    type: types[Math.floor(Math.random() * types.length)],
+                });
+            }
+        } else if (selectedVariant === 'fireworks') {
+            // Center Burst
+            for (let i = 0; i < 60; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = 2 + Math.random() * 6;
+                newParticles.push({
+                    id: i,
+                    x: 50, // Start center
+                    y: 50,
+                    color: COLORS[Math.floor(Math.random() * COLORS.length)],
+                    size: 5 + Math.random() * 10,
+                    rotation: Math.random() * 360,
+                    velocityX: Math.cos(angle) * velocity,
+                    velocityY: Math.sin(angle) * velocity,
+                    type: 'sparkle',
+                });
+            }
+        } else if (selectedVariant === 'emojis') {
+            // Floating Emojis
+            const emojis = ['🎉', '🥳', '⭐', '🏆', '💯', '🚀', '🐱'];
+            for (let i = 0; i < 20; i++) {
+                newParticles.push({
+                    id: i,
+                    x: Math.random() * 100,
+                    y: 110, // Start bottom
+                    color: '#FFF',
+                    size: 24 + Math.random() * 24,
+                    rotation: (Math.random() - 0.5) * 20,
+                    velocityX: (Math.random() - 0.5) * 2,
+                    velocityY: -2 - Math.random() * 4, // Float UP
+                    type: 'star', // reusing structure, but will render as text
+                    emoji: emojis[Math.floor(Math.random() * emojis.length)]
+                } as any);
+            }
         }
+
         setParticles(newParticles);
 
-        // Play celebration sound
+        // 3. Play Random Sound
+        // NOTE: Browser cannot scan folder. You must list files here manually.
+        const SOUNDS = [
+            'celebration.mp3', 'ce2.mp3', 'ce3.mp3', 'ce4.mp3', 'ce5.mp3'
+            // 'yay.mp3',   <-- Add your files to public/sounds/ and list them here
+            // 'wow.mp3'
+        ];
+        const randomSound = SOUNDS[Math.floor(Math.random() * SOUNDS.length)];
+
+        console.log('[Celebration] Variant:', selectedVariant);
+        console.log('[Celebration] Playing Sound:', randomSound);
+
         try {
-            const audio = new Audio(import.meta.env.BASE_URL + 'sounds/celebration.mp3');
+            const audio = new Audio(import.meta.env.BASE_URL + 'sounds/' + randomSound);
             audio.volume = 0.5;
-            audio.play().catch(() => {
-                // Audio play failed (likely no sound file or autoplay blocked)
-                console.log('Celebration sound not available');
-            });
-        } catch {
-            // Audio not supported
+            audio.play().catch(e => console.log('Audio play failed', e));
+        } catch (e) {
+            console.warn('Audio not supported');
         }
 
-        // Auto-hide after animation
+        // Auto-hide
         const timer = setTimeout(() => {
             setIsVisible(false);
             onComplete?.();
-        }, 2000);
+        }, 2500);
 
         return () => clearTimeout(timer);
     }, [onComplete]);
@@ -71,53 +123,45 @@ const CelebrationEffect = ({ onComplete }: CelebrationEffectProps) => {
             {particles.map((particle) => (
                 <div
                     key={particle.id}
-                    className="absolute animate-celebration-fall"
+                    className="absolute"
                     style={{
                         left: `${particle.x}%`,
                         top: `${particle.y}%`,
                         transform: `rotate(${particle.rotation}deg)`,
-                        animationDelay: `${Math.random() * 0.5}s`,
-                        animationDuration: `${1.5 + Math.random()}s`,
+                        animation: variant === 'fireworks'
+                            ? `firework-expand 1s ease-out forwards`
+                            : variant === 'emojis'
+                                ? `emoji-float 2s linear forwards`
+                                : `celebration-fall 2s ease-out forwards`,
+                        // Apply custom velocity rules via animation/state in real engine, 
+                        // but for simple CSS, we rely on the keyframes mostly. 
+                        // For fireworks, we need JS animation or standard CSS expansion.
+                        // Let's stick to simple CSS classes defined in index.css for now.
                     }}
                 >
-                    {particle.type === 'confetti' && (
-                        <div
-                            className="rounded-sm"
-                            style={{
-                                width: particle.size,
-                                height: particle.size * 0.6,
-                                backgroundColor: particle.color,
-                            }}
-                        />
-                    )}
-                    {particle.type === 'star' && (
-                        <span
-                            style={{
-                                fontSize: particle.size,
-                                color: particle.color,
-                                textShadow: `0 0 ${particle.size / 2}px ${particle.color}`,
-                            }}
-                        >
-                            ★
-                        </span>
-                    )}
-                    {particle.type === 'sparkle' && (
-                        <span
-                            style={{
-                                fontSize: particle.size,
-                                color: particle.color,
-                            }}
-                        >
-                            ✨
-                        </span>
+                    {/* Render Logic */}
+                    {(variant === 'emojis' && (particle as any).emoji) ? (
+                        <span style={{ fontSize: particle.size }}>{(particle as any).emoji}</span>
+                    ) : (
+                        <>
+                            {particle.type === 'confetti' && (
+                                <div className="rounded-sm" style={{ width: particle.size, height: particle.size * 0.6, backgroundColor: particle.color }} />
+                            )}
+                            {particle.type === 'star' && (
+                                <span style={{ fontSize: particle.size, color: particle.color }}>★</span>
+                            )}
+                            {particle.type === 'sparkle' && (
+                                <span style={{ fontSize: particle.size, color: particle.color }}>✨</span>
+                            )}
+                        </>
                     )}
                 </div>
             ))}
 
-            {/* Central burst text */}
+            {/* Center Text */}
             <div className="absolute inset-0 flex items-center justify-center">
                 <div className="animate-bounce text-6xl md:text-8xl font-bold text-yellow-400 drop-shadow-[0_4px_0_#000]">
-                    🎉
+                    {variant === 'emojis' ? '🌟' : '🎉'}
                 </div>
             </div>
         </div>

@@ -12,7 +12,8 @@ A fun, interactive math quiz game for children (ages 7-9) featuring pixel art st
 
 ### 🎨 Child-Friendly Design
 - **Playful Visual Style**: Colorful option cards, rounded corners, bounce animations
-- **Celebration Effects**: Confetti and sound on correct answers
+- **Celebration Effects**: Confetti, Fireworks, and Floating Emojis with random sound effects
+- **Customizable Audio**: Add MP3s to `public/sounds` and register them in `src/components/Game/CelebrationEffect.tsx`
 - **No Punishment**: Incorrect answers show "ESCAPE" without negative effects
 - **Large Touch Targets**: Designed for tablet use
 
