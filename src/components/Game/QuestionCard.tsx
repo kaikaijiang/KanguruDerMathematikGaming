@@ -1,4 +1,5 @@
-import { PlayCircle } from 'lucide-react';
+import { PlayCircle, Volume2, VolumeX } from 'lucide-react';
+import { useUserStore } from '../../stores/useGameStore';
 import { useState, useEffect } from 'react';
 
 interface QuestionCardProps {
@@ -54,6 +55,7 @@ const QuestionCard = ({
     hasHint,
     selectedAnswers
 }: QuestionCardProps) => {
+    const { isSoundEnabled, toggleSound } = useUserStore();
 
     // Helper: Convert Google Drive links to direct image sources
     const getDirectImageUrl = (url: string) => {
@@ -111,27 +113,40 @@ const QuestionCard = ({
                     })}
                 </div>
 
-                {/* Solution Button (Audit Mode) */}
-                {onShowSolution && (
-                    <button
-                        onClick={onShowSolution}
-                        className="absolute top-[-20px] right-[-10px] bg-yellow-400 text-black px-3 py-1 border-2 border-white flex items-center gap-2 hover:scale-105 active:scale-95 transition-transform"
-                    >
-                        <PlayCircle size={16} />
-                        <span>VIDEO</span>
-                    </button>
-                )}
+                {/* Top Right Actions Container */}
+                <div className="absolute top-[-20px] right-[-10px] flex gap-2">
 
-                {/* Hint Button */}
-                {hasHint && onShowHint && (
+                    {/* Sound Toggle */}
                     <button
-                        onClick={onShowHint}
-                        className={`absolute top-[-20px] ${onShowSolution ? 'right-[100px]' : 'right-[-10px]'} bg-purple-500 text-white px-3 py-1 border-2 border-white flex items-center gap-2 hover:scale-105 active:scale-95 transition-transform`}
+                        onClick={toggleSound}
+                        className={`bg-green-500 text-white px-3 py-1 border-2 border-white flex items-center justify-center p-2 hover:scale-105 active:scale-95 transition-transform ${!isSoundEnabled ? 'bg-gray-500' : ''}`}
+                        title={isSoundEnabled ? "Mute Sound" : "Enable Sound"}
                     >
-                        <span className="text-xl font-bold">?</span>
-                        <span>HINT</span>
+                        {isSoundEnabled ? <Volume2 size={24} /> : <VolumeX size={24} />}
                     </button>
-                )}
+
+                    {/* Hint Button */}
+                    {hasHint && onShowHint && (
+                        <button
+                            onClick={onShowHint}
+                            className={`bg-purple-500 text-white px-3 py-1 border-2 border-white flex items-center gap-2 hover:scale-105 active:scale-95 transition-transform`}
+                        >
+                            <span className="text-xl font-bold">?</span>
+                            <span className="hidden md:inline">HINT</span>
+                        </button>
+                    )}
+
+                    {/* Solution Button (Audit Mode) */}
+                    {onShowSolution && (
+                        <button
+                            onClick={onShowSolution}
+                            className="bg-yellow-400 text-black px-3 py-1 border-2 border-white flex items-center gap-2 hover:scale-105 active:scale-95 transition-transform"
+                        >
+                            <PlayCircle size={16} />
+                            <span className="hidden md:inline">VIDEO</span>
+                        </button>
+                    )}
+                </div>
             </div>
 
             {/* Options Grid - Grow to fill remaining space */}

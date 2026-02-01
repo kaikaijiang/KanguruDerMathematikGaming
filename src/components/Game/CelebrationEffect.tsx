@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useUserStore } from '../../stores/useGameStore';
 
 interface CelebrationEffectProps {
     onComplete?: () => void;
@@ -34,7 +35,6 @@ const CelebrationEffect = ({ onComplete }: CelebrationEffectProps) => {
         const newParticles: Particle[] = [];
 
         if (selectedVariant === 'classic') {
-            // ... Existing Logic ...
             const types: ('confetti' | 'star' | 'sparkle')[] = ['confetti', 'star', 'sparkle'];
             for (let i = 0; i < 50; i++) {
                 newParticles.push({
@@ -86,25 +86,28 @@ const CelebrationEffect = ({ onComplete }: CelebrationEffectProps) => {
         }
 
         setParticles(newParticles);
-
-        // 3. Play Random Sound
-        // NOTE: Browser cannot scan folder. You must list files here manually.
-        const SOUNDS = [
-            'celebration.mp3', 'ce2.mp3', 'ce3.mp3', 'ce4.mp3', 'ce5.mp3'
-            // 'yay.mp3',   <-- Add your files to public/sounds/ and list them here
-            // 'wow.mp3'
-        ];
-        const randomSound = SOUNDS[Math.floor(Math.random() * SOUNDS.length)];
-
         console.log('[Celebration] Variant:', selectedVariant);
-        console.log('[Celebration] Playing Sound:', randomSound);
 
-        try {
-            const audio = new Audio(import.meta.env.BASE_URL + 'sounds/' + randomSound);
-            audio.volume = 0.5;
-            audio.play().catch(e => console.log('Audio play failed', e));
-        } catch (e) {
-            console.warn('Audio not supported');
+        // 3. Play Random Sound IF Enabled
+        // Access store directly to avoid hook in loop/logic, though we are in useEffect so getState is fine.
+        const isSoundEnabled = useUserStore.getState().isSoundEnabled;
+
+        if (isSoundEnabled) {
+            const SOUNDS = [
+                'celebration.mp3', 'ce2.mp3', 'ce3.mp3', 'ce4.mp3', 'ce5.mp3'
+            ];
+            const randomSound = SOUNDS[Math.floor(Math.random() * SOUNDS.length)];
+            console.log('[Celebration] Playing Sound:', randomSound);
+
+            try {
+                const audio = new Audio(import.meta.env.BASE_URL + 'sounds/' + randomSound);
+                audio.volume = 0.5;
+                audio.play().catch(e => console.log('Audio play failed', e));
+            } catch (e) {
+                console.warn('Audio not supported');
+            }
+        } else {
+            console.log('[Celebration] Sound Muted by User Preference');
         }
 
         // Auto-hide
@@ -133,10 +136,6 @@ const CelebrationEffect = ({ onComplete }: CelebrationEffectProps) => {
                             : variant === 'emojis'
                                 ? `emoji-float 2s linear forwards`
                                 : `celebration-fall 2s ease-out forwards`,
-                        // Apply custom velocity rules via animation/state in real engine, 
-                        // but for simple CSS, we rely on the keyframes mostly. 
-                        // For fireworks, we need JS animation or standard CSS expansion.
-                        // Let's stick to simple CSS classes defined in index.css for now.
                     }}
                 >
                     {/* Render Logic */}

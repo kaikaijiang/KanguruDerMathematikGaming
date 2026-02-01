@@ -339,7 +339,7 @@ const SketchOverlay = () => {
                     transform: 'none', // Override the -translate-x-1/2 from CSS class if needed
                     bottom: 'auto'
                 } : undefined}
-                className={`fixed ${!toolbarPosition ? 'top-16 left-8' : ''} flex gap-4 bg-gray-900 border-4 border-white p-2 pointer-events-auto transition-opacity duration-300 ${tool === 'select' ? 'opacity-80 hover:opacity-100' : 'opacity-100'} cursor-move`}
+                className={`fixed ${!toolbarPosition ? 'top-96 landscape:top-20 left-8' : ''} flex flex-col gap-4 bg-gray-900 border-4 border-white p-2 pointer-events-auto transition-opacity duration-300 ${tool === 'select' ? 'opacity-80 hover:opacity-100' : 'opacity-100'} cursor-move`}
             >
 
                 {/* SELECT TOOL */}
@@ -355,7 +355,7 @@ const SketchOverlay = () => {
                 <div className="relative">
                     {/* Tray */}
                     {expandedTool === 'draw' && (
-                        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-6 flex flex-col gap-4 bg-gray-800 p-4 border-2 border-white rounded-lg animate-fade-in shadow-xl items-center cursor-default w-max"
+                        <div className="absolute left-full top-1/2 -translate-y-1/2 ml-4 flex flex-col gap-4 bg-gray-800 p-4 border-2 border-white rounded-lg animate-fade-in shadow-xl items-center cursor-default w-max"
                             onMouseDown={(e) => e.stopPropagation()}
                             onTouchStart={(e) => e.stopPropagation()}>
                             {/* Color Row */}
@@ -407,7 +407,7 @@ const SketchOverlay = () => {
                 <div className="relative">
                     {/* Tray */}
                     {expandedTool === 'erase' && (
-                        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-6 flex gap-4 bg-gray-800 p-4 border-2 border-white rounded-lg animate-fade-in shadow-xl items-center cursor-default"
+                        <div className="absolute left-full top-1/2 -translate-y-1/2 ml-4 flex gap-4 bg-gray-800 p-4 border-2 border-white rounded-lg animate-fade-in shadow-xl items-center cursor-default"
                             onMouseDown={(e) => e.stopPropagation()}
                             onTouchStart={(e) => e.stopPropagation()}>
                             {SIZE_SEQUENCE.map(s => (

@@ -36,8 +36,10 @@ interface UserState {
     lastQuestionIndex: number; // Last index played in sequence
     currentBalance: number;
     activeExamId: string | null; // e.g. "3_4_2025"
+    isSoundEnabled: boolean;
     setPlayerId: (id: string) => void;
     setLanguage: (lang: Language) => void;
+    toggleSound: () => void;
     setSelectedAvatar: (id: string, url?: string) => void;
     unlockAvatar: (seed: string) => void;
     addWrongQuestion: (id: string) => void;
@@ -86,7 +88,10 @@ export const useUserStore = create<UserState>()(
             lastQuestionIndex: 0,
             currentBalance: 0,
             activeExamId: null,
+            isSoundEnabled: true,
             setPlayerId: (id) => set({ playerId: id }),
+
+            toggleSound: () => set((state) => ({ isSoundEnabled: !state.isSoundEnabled })),
 
             setLanguage: (lang) => set({ language: lang }),
             setSelectedAvatar: (id, url) => set({ selectedAvatarId: id, selectedAvatarUrl: url }),
@@ -130,7 +135,8 @@ export const useUserStore = create<UserState>()(
                 wrongQuestions: [],
                 lastQuestionIndex: 0,
                 currentBalance: 0,
-                activeExamId: null
+                activeExamId: null,
+                // Keep sound setting even on session clear? Likely yes, it's a device pref.
             }),
 
         }),
