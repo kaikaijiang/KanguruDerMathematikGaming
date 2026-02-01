@@ -347,6 +347,17 @@ const Login = () => {
                         View Your Sticker Book
                     </button>
                 </div>
+
+                <div className="text-[10px] md:text-xs text-gray-500 mt-8 max-w-md mx-auto leading-relaxed opacity-70 space-y-2">
+                    <p>
+                        Privacy Notice: This game saves your progress (score, collected stickers) locally on your device or via your personal ID.
+                        No personal data is shared with third parties.
+                    </p>
+                    <p>
+                        Datenschutzhinweis: Dieses Spiel speichert deinen Fortschritt (Punktestand, gesammelte Sticker) lokal auf deinem Gerät oder über deine persönliche ID.
+                        Es werden keine persönlichen Daten an Dritte weitergegeben.
+                    </p>
+                </div>
             </div>
         </div>
     );
