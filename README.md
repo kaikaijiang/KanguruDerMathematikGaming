@@ -1,6 +1,8 @@
 # 🦘 Mathe Kanguru
 
-A fun, interactive math quiz game for children (ages 7-9) featuring pixel art style, sticker collection, and engaging animations.
+A small, slightly desperate, but well-intentioned ["Känguru der Mathematik"](https://www.mathe-kaenguru.de/) game.
+
+Made by a parent in Germany who learned the hard way that helping with math homework is an extreme sport — particularly when German isn’t your first language… and definitely not good for your blood pressure. 🧠💥
 
 ## Features
 
