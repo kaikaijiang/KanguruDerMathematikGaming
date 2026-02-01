@@ -345,7 +345,7 @@ const GameBoard = () => {
                 If it's overlaying the whole screen for drawing, it needs to match the visual content.
                 Putting it inside the scaled container makes sure it matches.
             */}
-                <SketchOverlay key={currentQuestionIndex} />
+                <SketchOverlay resetKey={currentQuestionIndex} />
 
                 {/* Celebration Effect for Correct Answers */}
                 {showCelebration && <CelebrationEffect onComplete={() => setShowCelebration(false)} />}

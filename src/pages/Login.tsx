@@ -270,7 +270,7 @@ const Login = () => {
                                 >-</button>
                                 <span className="text-2xl md:text-3xl lg:text-4xl font-mono min-w-[3ch]">{questionCount}</span>
                                 <button
-                                    onClick={() => setQuestionCount(Math.min(24, questionCount + 1))}
+                                    onClick={() => setQuestionCount(Math.min(30, questionCount + 1))}
                                     className="p-1 md:p-2 border-2 border-white bg-black hover:bg-gray-700 w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 flex items-center justify-center text-lg md:text-xl lg:text-2xl rounded"
                                 >+</button>
                             </div>

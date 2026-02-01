@@ -7,6 +7,7 @@ interface AvatarDisplayProps {
 
 const AvatarDisplay = ({ imageUrl, state }: AvatarDisplayProps) => {
     const [animClass, setAnimClass] = useState('');
+    const [isEnlarged, setIsEnlarged] = useState(false);
 
     useEffect(() => {
         if (state === 'captured') setAnimClass('animate-bounce'); // Success animation
@@ -37,34 +38,62 @@ const AvatarDisplay = ({ imageUrl, state }: AvatarDisplayProps) => {
     }
 
     return (
-        <div className={`w-full h-full flex justify-center items-end relative overflow-visible transition-all duration-500`}>
-            {/* Content */}
-            <div className={`relative ${animClass} transition-transform duration-500 w-full h-full flex items-end justify-center`}>
-                <img
-                    src={finalUrl}
-                    alt="Avatar"
-                    className="
-                        object-contain 
-                        w-auto h-[90%] 
-                        max-w-full 
-                        drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]
-                    "
-                />
+        <>
+            {/* Normal Avatar Display */}
+            <div
+                className={`w-full h-full flex justify-center items-end relative overflow-visible transition-all duration-500 cursor-pointer`}
+                onClick={() => setIsEnlarged(true)}
+                title="Click to enlarge"
+            >
+                {/* Content */}
+                <div className={`relative ${animClass} transition-transform duration-500 w-full h-full flex items-end justify-center`}>
+                    <img
+                        src={finalUrl}
+                        alt="Avatar"
+                        className="
+                            object-contain 
+                            w-auto h-[90%] 
+                            max-w-full 
+                            drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]
+                            hover:scale-105 transition-transform duration-200
+                        "
+                    />
+                </div>
+
+                {state === 'captured' && (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+                        <h2 className="text-[clamp(0.7rem,2.5vw,1.5rem)] text-green-400 font-bold drop-shadow-[0_1px_0_#000] border border-black bg-white px-1.5 md:px-2 py-0.5 md:py-1 rounded-md md:rounded-lg -rotate-12 animate-bounce whitespace-nowrap">GOCHA!</h2>
+                    </div>
+                )}
+
+                {state === 'escaped' && (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+                        <h2 className="text-[clamp(0.7rem,2.5vw,1.5rem)] text-red-500 font-bold drop-shadow-[0_1px_0_#000] border border-black bg-white px-1.5 md:px-2 py-0.5 md:py-1 rounded-md md:rounded-lg rotate-12 whitespace-nowrap">ESCAPE</h2>
+                    </div>
+                )}
             </div>
 
-            {state === 'captured' && (
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-                    <h2 className="text-[clamp(0.7rem,2.5vw,1.5rem)] text-green-400 font-bold drop-shadow-[0_1px_0_#000] border border-black bg-white px-1.5 md:px-2 py-0.5 md:py-1 rounded-md md:rounded-lg -rotate-12 animate-bounce whitespace-nowrap">GOCHA!</h2>
+            {/* Enlarged Avatar Modal */}
+            {isEnlarged && (
+                <div
+                    className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center cursor-pointer animate-fade-in"
+                    onClick={() => setIsEnlarged(false)}
+                >
+                    <img
+                        src={finalUrl}
+                        alt="Avatar Enlarged"
+                        className="max-w-[80vw] max-h-[80vh] object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.3)] rounded-2xl border-4 border-white/20"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setIsEnlarged(false);
+                        }}
+                    />
+                    <div className="absolute bottom-8 text-white/60 text-sm">Click anywhere to close</div>
                 </div>
             )}
-
-            {state === 'escaped' && (
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-                    <h2 className="text-[clamp(0.7rem,2.5vw,1.5rem)] text-red-500 font-bold drop-shadow-[0_1px_0_#000] border border-black bg-white px-1.5 md:px-2 py-0.5 md:py-1 rounded-md md:rounded-lg rotate-12 whitespace-nowrap">ESCAPE</h2>
-                </div>
-            )}
-        </div>
+        </>
     );
 };
 
 export default AvatarDisplay;
+

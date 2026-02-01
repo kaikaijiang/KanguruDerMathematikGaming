@@ -9,7 +9,7 @@ Made by a parent in Germany who learned the hard way that helping with math home
 ### 🎮 Core Gameplay
 - **Multi-language Support**: German (Deutsch) and Chinese (中文)
 - **Exam Selection**: Choose class level and year
-- **Question Count**: Configurable (5-24 questions)
+- **Question Count**: Configurable (5-30 questions)
 - **Retry Mode**: Practice wrong answers across all years for a class
 
 ### 🎨 Child-Friendly Design

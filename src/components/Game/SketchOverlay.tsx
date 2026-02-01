@@ -32,7 +32,11 @@ const ERASER_SIZES: Record<BrushSize, number> = {
 const COLOR_SEQUENCE: BrushColor[] = ['black', 'red', 'blue', 'green', 'white', 'yellow', 'orange', 'purple'];
 const SIZE_SEQUENCE: BrushSize[] = ['small', 'medium', 'large'];
 
-const SketchOverlay = () => {
+interface SketchOverlayProps {
+    resetKey?: number; // When this changes, clear the canvas (for question transitions)
+}
+
+const SketchOverlay = ({ resetKey }: SketchOverlayProps) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [tool, setTool] = useState<Tool>('select');
     const [color, setColor] = useState<BrushColor>('black');
@@ -91,6 +95,15 @@ const SketchOverlay = () => {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    // Clear canvas when question changes (resetKey changes)
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        const ctx = ctxRef.current;
+        if (canvas && ctx) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+    }, [resetKey]);
 
     // Touch Event Handling (Manual to allow scrolling)
     useEffect(() => {
@@ -339,7 +352,7 @@ const SketchOverlay = () => {
                     transform: 'none', // Override the -translate-x-1/2 from CSS class if needed
                     bottom: 'auto'
                 } : undefined}
-                className={`fixed ${!toolbarPosition ? 'top-96 landscape:top-20 left-8' : ''} flex flex-col gap-4 bg-gray-900 border-4 border-white p-2 pointer-events-auto transition-opacity duration-300 ${tool === 'select' ? 'opacity-80 hover:opacity-100' : 'opacity-100'} cursor-move`}
+                className={`fixed ${!toolbarPosition ? 'top-[42%] left-[10%]' : ''} flex flex-col gap-4 bg-gray-900 border-4 border-white p-2 pointer-events-auto transition-opacity duration-300 ${tool === 'select' ? 'opacity-80 hover:opacity-100' : 'opacity-100'} cursor-move`}
             >
 
                 {/* SELECT TOOL */}
