@@ -4,6 +4,8 @@ A small, slightly desperate, but well-intentioned ["Känguru der Mathematik"](ht
 
 Made by a parent in Germany who learned the hard way that helping with math homework is an extreme sport — particularly when German isn’t your first language… and definitely not good for your blood pressure. 🧠💥
 
+[Start the Game](https://kaikaijiang.github.io/KanguruDerMathematikGaming/)
+
 ## Features
 
 ### 🎮 Core Gameplay
