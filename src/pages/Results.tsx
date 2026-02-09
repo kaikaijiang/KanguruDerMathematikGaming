@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import SeoWrapper from '../components/SeoWrapper';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useGameStore, useUserStore } from '../stores/useGameStore';
 import { syncScore } from '../services/api';
@@ -88,8 +89,11 @@ const Results = () => {
 
     const isClear = state.score >= Math.ceil(state.total / 2); // Simple 50% threshold for "Clear"
 
+
+
     return (
         <div className="min-h-screen flex flex-col items-center justify-center text-white p-4">
+            <SeoWrapper title="Results" description="Check your quiz results and see your score!" />
             <div className="text-center space-y-8 animate-fade-in">
                 <h1 className="text-5xl md:text-7xl font-bold text-yellow-400 mb-4">
                     {isClear ? 'STAGE CLEAR!' : 'NICE TRY!'}

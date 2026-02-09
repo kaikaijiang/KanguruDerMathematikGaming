@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import SeoWrapper from '../components/SeoWrapper';
 import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '../stores/useGameStore';
 import { fetchGallery, syncScore, type GalleyItem } from '../services/api';
@@ -73,6 +74,7 @@ const Gallery = () => {
 
     return (
         <div className="min-h-screen text-white p-4 font-vt323">
+            <SeoWrapper title="Sticker Gallery" description="View your collection of stickers and achievements." />
             <header className="flex items-center gap-4 mb-8 border-b-4 border-gray-700 pb-4 sticky top-0 bg-gray-900 z-10">
                 <button
                     onClick={() => navigate('/')}

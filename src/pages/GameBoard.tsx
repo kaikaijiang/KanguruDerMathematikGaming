@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import SeoWrapper from '../components/SeoWrapper';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useGameStore, useUserStore } from '../stores/useGameStore';
 import { fetchQuestions, fetchSticker } from '../services/api';
@@ -235,6 +236,7 @@ const GameBoard = () => {
 
     return (
         <ImageDragProvider>
+            <SeoWrapper title="Game" description="Play Mathe Känguru quiz and collect stickers!" />
             <div className="min-h-screen text-white flex flex-col items-center py-4 px-4 relative overflow-hidden">
                 <ImageOverlayLayer resetKey={currentQuestionIndex} />
                 <div className="game-container flex flex-col flex-grow relative z-10 p-2 pt-2" style={{ height: '100%' }}>

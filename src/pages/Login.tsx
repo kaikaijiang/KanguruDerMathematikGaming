@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import SeoWrapper from '../components/SeoWrapper';
 import { useNavigate } from 'react-router-dom';
 import type { Language } from '../stores/useGameStore';
 import { useUserStore } from '../stores/useGameStore';
@@ -163,8 +164,11 @@ const Login = () => {
     }, [selectedClass, availableYears, selectedYear]);
 
 
+    // ... imports
+
     return (
         <div className="min-h-screen text-white flex flex-col items-center justify-center p-2 md:p-4 lg:p-8">
+            <SeoWrapper title="Login" description="Login to Mathe Känguru and start learning math with fun quizzes!" />
             <div className="text-center space-y-3 md:space-y-4 lg:space-y-6 max-w-sm md:max-w-md lg:max-w-2xl xl:max-w-3xl w-full animate-fade-in">
                 <h1 className="text-[clamp(1.5rem,4vw,4rem)] text-yellow-500 font-bold mb-2 md:mb-4 lg:mb-6 drop-shadow-[4px_4px_0_rgba(0,0,0,1)]">
                     MATHE KANGURU
